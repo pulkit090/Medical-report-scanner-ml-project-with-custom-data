@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Medical Reports</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Medical Reports JSON</h1>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    <h2>Medical Reports</h2>
+    <table id="reports-table">
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>Report</th>
+                <th>Age</th>
+                <th>Critical</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- JSON data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // JSON data
+        const reports = [
+            {"patient_id": 1, "report": "Patient shows high glucose levels, risk of diabetes.", "age": 45, "critical": false},
+            {"patient_id": 2, "report": "Patient has normal hemoglobin.", "age": 30, "critical": false},
+            {"patient_id": 3, "report": "Patient shows signs of anemia.", "age": 25, "critical": true},
+            {"patient_id": 4, "report": "Patient suffers from severe hypertension.", "age": 60, "critical": true},
+            {"patient_id": 5, "report": "Patient has mild headache, advised rest.", "age": 50, "critical": false},
+            {"patient_id": 6, "report": "Patient has elevated liver enzymes, possible hepatitis.", "age": 55, "critical": true},
+            {"patient_id": 7, "report": "Patient has stable vital signs.", "age": 40, "critical": false},
+            {"patient_id": 8, "report": "Patient has severe chest pain, potential heart attack.", "age": 65, "critical": true},
+            {"patient_id": 9, "report": "Patient has high cholesterol, risk of cardiovascular diseases.", "age": 35, "critical": false},
+            {"patient_id": 10, "report": "Patient is experiencing chronic back pain.", "age": 70, "critical": false}
+        ];
+
+        // Function to render JSON data in the table
+        function renderTable(data) {
+            const tableBody = document.getElementById('reports-table').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ""; // Clear any existing rows
+
+            data.forEach(report => {
+                const row = document.createElement('tr');
+                
+                const cellId = document.createElement('td');
+                cellId.textContent = report.patient_id;
+                row.appendChild(cellId);
+
+                const cellReport = document.createElement('td');
+                cellReport.textContent = report.report;
+                row.appendChild(cellReport);
+
+                const cellAge = document.createElement('td');
+                cellAge.textContent = report.age;
+                row.appendChild(cellAge);
+
+                const cellCritical = document.createElement('td');
+                cellCritical.textContent = report.critical ? "Yes" : "No";
+                row.appendChild(cellCritical);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Render the table with the JSON data
+        renderTable(reports);
+    </script>
+</body>
+</html>
